@@ -10,8 +10,13 @@
           </v-row>
           <v-row>
             <v-col cols="12" sm="12">
-              <v-select :items="categories.values" label="Select a category" dense
-                v-model="categories.selectedValue"></v-select>
+              <v-select
+                :items="categories.values"
+                label="Select a category"
+                dense
+                v-model="categories.selectedValue"
+                @change="changeCategory">
+              </v-select>
             </v-col>
           </v-row>
           <v-row>
@@ -33,7 +38,7 @@
           </v-row>
         </v-col>
         <v-col cols="12" md="5">
-          <ScatterPlot />
+          <ScatterPlot :key="scatterPlotId" :selectedCategory="categories.selectedValue"/>
         </v-col>
         <v-col cols="12" md="5">
           <LinePlot />
@@ -87,5 +92,11 @@ export default {
       selectedValue: 'none'
     }
   }),
+
+  methods: {
+    changeCategory() {
+      this.scatterPlotId += 1;
+    }
+  }
 }
 </script>
