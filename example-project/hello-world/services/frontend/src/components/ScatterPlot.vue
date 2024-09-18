@@ -80,7 +80,6 @@ export default {
         yaxis: {
           title: "Number of Employees"
         },
-        showLegend: true
       };
       var config = {responsive: true, displayModeBar: false};
       Plotly.newPlot('myScatterPlot', data, layout, config);
@@ -103,7 +102,7 @@ export default {
           that.$emit('changeCurrentlySelectedCompany', pn + 1)
 
           // revert all colors
-          var colors = ['#00000' * 15]
+          var colors = Array(15).fill('#00000');
 
           // and change currently selected color to blue
           colors[pn] = '#3777ee';
