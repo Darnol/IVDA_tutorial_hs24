@@ -34,14 +34,14 @@ export default {
     selectedCompany() {
       this.LinePlotData.solid.x = [];
       this.LinePlotData.solid.y = [];
-      this.LinePlotData.prediction.y = [];
+      this.LinePlotData.prediction.x = [];
       this.LinePlotData.prediction.y = [];
       this.fetchData();
     },
     selectedAlgorithm() {
       this.LinePlotData.solid.x = [];
       this.LinePlotData.solid.y = [];
-      this.LinePlotData.prediction.y = [];
+      this.LinePlotData.prediction.x = [];
       this.LinePlotData.prediction.y = [];
       this.fetchData();
     }
