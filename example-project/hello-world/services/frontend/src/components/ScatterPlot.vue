@@ -60,7 +60,14 @@ export default {
         }
       };
       var data = [trace1];
-      var layout = {};
+      var layout = {
+        xaxis: {
+          title: "Founding Year"
+        },
+        yaxis: {
+          title: "Number of Employees"
+        },
+      };
       var config = {responsive: true, displayModeBar: false};
       Plotly.newPlot('myScatterPlot', data, layout, config);
       this.clickScatterPlot();
