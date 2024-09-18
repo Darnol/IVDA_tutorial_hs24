@@ -27,7 +27,7 @@
             </v-col>
             <v-col cols="12" sm="12">
               <v-select
-                :items="companies.values"
+                :items="companies.names"
                 label="Select a company"
                 dense
                 v-model="companies.selectedValue"
@@ -62,7 +62,7 @@
           <v-row>
             <LinePlot
               :key="linePlotId"
-              :selectedCompany="companies.selectedValue"
+              :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
               :selectedAlgorithm="algorithm.selectedValue"
             />
           </v-row>
@@ -112,7 +112,8 @@ export default {
     },
     companies: {
       values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      selectedValue: 1
+      names: ["alphabet","apple","amazon","microsoft","meta","united health","johnson and johnson","pfizer","cvs health","mckesson","ubs","credit suisse","jp morgan","goldman sachs","bank of america"],
+      selectedValue: "alphabet"
     },
     algorithm: {
       values: ['none', 'random', 'regression'],
@@ -131,7 +132,8 @@ export default {
           this.linePlotId += 1
     },
     changeCurrentlySelectedCompany(companyId) {
-      this.companies.selectedValue = companyId
+      // id to name
+      this.companies.selectedValue = this.companies.names[this.companies.values.indexOf(companyId)]
       this.changeCompany()
     }
   }
