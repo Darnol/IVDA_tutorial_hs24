@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row align="center" justify="center" class="mt-1 mb-0">
-      <h3>Profit View of selected company {{ $props.selectedCompany }}</h3>
+      <h3>Profit View of selected company "{{ $props.selectedCompanyName }}"</h3>
     </v-row>
     <div style="height: 80vh; width: 100vh">
       <div id='myLinePlot' style="height: inherit; width: inherit"></div>
@@ -17,7 +17,7 @@ export default {
   
   name: "LinePlot",
   
-  props: ["selectedCompany", "selectedAlgorithm"],
+  props: ["selectedCompany", "selectedCompanyName", "selectedAlgorithm"],
 
   data: () => ({
     LinePlotData: { 

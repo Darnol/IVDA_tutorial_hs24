@@ -63,6 +63,7 @@
             <LinePlot
               :key="linePlotId"
               :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+              :selectedCompanyName="companies.selectedValue"
               :selectedAlgorithm="algorithm.selectedValue"
             />
           </v-row>
