@@ -51,6 +51,7 @@
           <ScatterPlot
             :key="scatterPlotId"
             :selectedCategory="categories.selectedValue"
+            @changeCurrentlySelectedCompany="changeCurrentlySelectedCompany"
           />
         </v-col>
         <v-col cols="12" md="5">
@@ -119,8 +120,11 @@ export default {
     },
     changeAlgorithm() {
           this.linePlotId += 1
+    },
+    changeCurrentlySelectedCompany(companyId) {
+      this.companies.selectedValue = companyId
+      this.changeCompany()
     }
-
   }
 }
 </script>
