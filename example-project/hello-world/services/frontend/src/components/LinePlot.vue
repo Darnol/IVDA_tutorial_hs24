@@ -20,7 +20,10 @@ export default {
   props: ["selectedCompany", "selectedAlgorithm"],
 
   data: () => ({
-    LinePlotData: {x: [], y: []}
+    LinePlotData: { 
+      "solid" : {x: [], y: []},
+      "prediction" : {x: [], y: []}
+    }
   }),
   
   mounted() {
@@ -29,15 +32,19 @@ export default {
 
   watch: {
     selectedCompany() {
-      this.LinePlotData.x = [];
-      this.LinePlotData.y = [];
+      this.LinePlotData.solid.x = [];
+      this.LinePlotData.solid.y = [];
+      this.LinePlotData.prediction.y = [];
+      this.LinePlotData.prediction.y = [];
       this.fetchData();
-   },
-   selectedAlgorithm() {
-    this.LinePlotData.x = [];
-    this.LinePlotData.y = [];
-    this.fetchData();
-   }
+    },
+    selectedAlgorithm() {
+      this.LinePlotData.solid.x = [];
+      this.LinePlotData.solid.y = [];
+      this.LinePlotData.prediction.y = [];
+      this.LinePlotData.prediction.y = [];
+      this.fetchData();
+    }
   },
   
   methods: {
@@ -50,26 +57,60 @@ export default {
       const responseData = await response.json();
       // transform data to usable by lineplot
       responseData.profit.forEach((profit) => {
-        this.LinePlotData.x.push(profit.year)
-        this.LinePlotData.y.push(profit.value)
+        if (profit.year >= 2021) {
+          this.LinePlotData.prediction.x.push(profit.year)
+          this.LinePlotData.prediction.y.push(profit.value)
+        }
+        if (profit.year <= 2021) {
+          this.LinePlotData.solid.x.push(profit.year)
+          this.LinePlotData.solid.y.push(profit.value)
+        }
       })
       // draw the lineplot after the data is transformed
       this.drawLinePlot()
     },
     drawLinePlot() {
-      var trace1 = {
-        x: this.LinePlotData.x,
-        y: this.LinePlotData.y,
-        type: 'scatter'
+      var trace_solid = {
+        x: this.LinePlotData.solid.x,
+        y: this.LinePlotData.solid.y,
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: "History",
+        marker: {
+          color: 'blue'
+        },
+        line: {
+          color: 'blue'
+        }
       };
-      var data = [trace1];
+      var trace_prediction = {
+        x: this.LinePlotData.prediction.x,
+        y: this.LinePlotData.prediction.y,
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: "Prediction (if algorithm is selected)",
+        marker: {
+          color: 'orange'
+        },
+        line: {
+          color: 'orange',
+          dash: 'dot'
+        }
+      };
+      
+      // We exclude prediciton trace if there is only one value (2021)
+      var data = this.LinePlotData.prediction.x.length > 1 ? [trace_prediction, trace_solid] : [trace_solid];
       var layout = {
         xaxis: {
-          title: "Year"
+          title: "Year",
+          tickformat: "d",
+          autotick: false
         },
         yaxis: {
           title: "Profit"
         },
+        showlegend: true,
+        legend: {x: 0.05, y: 1}
       };
       var config = {responsive: true, displayModeBar: false}
       Plotly.newPlot('myLinePlot', data, layout, config);
