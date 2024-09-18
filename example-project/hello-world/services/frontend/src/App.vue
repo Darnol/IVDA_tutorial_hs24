@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <h2>Example Project</h2>
+      <h2 class="ma-4">Dominik Arnold 11-747-680</h2>
     </v-app-bar>
     <v-main>
       <ConfigurationPanel/>
