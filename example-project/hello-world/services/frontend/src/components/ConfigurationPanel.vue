@@ -2,21 +2,66 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="2">
-          <v-card>
-            Parameters go here
-          </v-card>
+        <v-col cols="12" md="2" class="sideBar">
+          <v-row>
+            <v-col cols="12" sm="12">
+              <div class="control-panel-font">Company Overview</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-select :items="categories.values" label="Select a category" dense
+                v-model="categories.selectedValue"></v-select>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <div class="control-panel-font">Profit View of Company</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-select :items="companies.values" label="Select a company" dense
+                v-model="companies.selectedValue"></v-select>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-select :items="algorithm.values" label="Select an algorithm" dense
+                v-model="algorithm.selectedValue"></v-select>
+            </v-col>
+          </v-row>
         </v-col>
         <v-col cols="12" md="5">
-          <ScatterPlot/>
+          <ScatterPlot />
         </v-col>
         <v-col cols="12" md="5">
-          <LinePlot/>
+          <LinePlot />
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
+
+
+<style scoped>
+.control-panel-font {
+  font-family: "Open Sans", verdana, arial, sans-serif;
+  align-items: center;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  font-weight: 500;
+  height: 40px;
+}
+.sideBar {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fafafa;
+  padding-left: 17px;
+  height: calc(100vh - 50px);
+}
+</style>
+
 
 <script>
 import LinePlot from './LinePlot.vue';
@@ -29,52 +74,18 @@ export default {
   components: {ScatterPlot, LinePlot},
 
   data: () => ({
-    ecosystem: [
-      {
-        text: 'vuetify-loader',
-        href: 'https://github.com/vuetifyjs/vuetify-loader/tree/next',
-      },
-      {
-        text: 'github',
-        href: 'https://github.com/vuetifyjs/vuetify/tree/next',
-      },
-      {
-        text: 'awesome-vuetify',
-        href: 'https://github.com/vuetifyjs/awesome-vuetify',
-      },
-    ],
-    importantLinks: [
-      {
-        text: 'Chat',
-        href: 'https://community.vuetifyjs.com',
-      },
-      {
-        text: 'Made with Vuetify',
-        href: 'https://madewithvuejs.com/vuetify',
-      },
-      {
-        text: 'Twitter',
-        href: 'https://twitter.com/vuetifyjs',
-      },
-      {
-        text: 'Articles',
-        href: 'https://medium.com/vuetify',
-      },
-    ],
-    whatsNext: [
-      {
-        text: 'Explore components',
-        href: 'https://vuetifyjs.com',
-      },
-      {
-        text: 'Roadmap',
-        href: 'https://vuetifyjs.com/introduction/roadmap/',
-      },
-      {
-        text: 'Frequently Asked Questions',
-        href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-      },
-    ],
+    categories: {
+      values: ['All', 'tech', 'health', 'bank'],
+      selectedValue: 'All'
+    },
+    companies: {
+      values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+      selectedValue: 1
+    },
+    algorithm: {
+      values: ['none', 'random', 'regression'],
+      selectedValue: 'none'
+    }
   }),
 }
 </script>
