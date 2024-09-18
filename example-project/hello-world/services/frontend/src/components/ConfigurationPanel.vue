@@ -2,7 +2,7 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="2" class="sideBar">
+        <v-col cols="12" md="6">
           <v-row>
             <v-col cols="12" sm="12">
               <div class="control-panel-font">Company Overview</div>
@@ -19,12 +19,12 @@
               </v-select>
             </v-col>
           </v-row>
+        </v-col>
+        <v-col cols="12" md="6">
           <v-row>
             <v-col cols="12" sm="12">
-              <div class="control-panel-font">Profit View of Company</div>
+              <div class="control-panel-font">Company Detail</div>
             </v-col>
-          </v-row>
-          <v-row>
             <v-col cols="12" sm="12">
               <v-select
                 :items="companies.values"
@@ -47,19 +47,25 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" md="5">
-          <ScatterPlot
-            :key="scatterPlotId"
-            :selectedCategory="categories.selectedValue"
-            @changeCurrentlySelectedCompany="changeCurrentlySelectedCompany"
-          />
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-row>
+            <ScatterPlot
+              :key="scatterPlotId"
+              :selectedCategory="categories.selectedValue"
+              @changeCurrentlySelectedCompany="changeCurrentlySelectedCompany"
+            />
+          </v-row>
         </v-col>
-        <v-col cols="12" md="5">
-          <LinePlot
-            :key="linePlotId"
-            :selectedCompany="companies.selectedValue"
-            :selectedAlgorithm="algorithm.selectedValue"
-          />
+        <v-col cols="12" md="6">
+          <v-row>
+            <LinePlot
+              :key="linePlotId"
+              :selectedCompany="companies.selectedValue"
+              :selectedAlgorithm="algorithm.selectedValue"
+            />
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -87,13 +93,16 @@
 
 
 <script>
+// eslint-disable-next-line
 import LinePlot from './LinePlot.vue';
+// eslint-disable-next-line
 import ScatterPlot from './ScatterPlot.vue';
 
 
 export default {
   name: 'HelloWorld',
   
+  // eslint-disable-next-line
   components: {ScatterPlot, LinePlot},
 
   data: () => ({

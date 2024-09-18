@@ -3,8 +3,8 @@
     <v-row align="center" justify="center" class="mt-1 mb-0">
       <h3>Overview of {{ $props.selectedCategory }} Companies</h3>
     </v-row>
-    <div style="height: 90vh">
-      <div id='myScatterPlot' style="height: inherit"></div>
+    <div style="height: 80vh; width: 100vh">
+      <div id='myScatterPlot' style="height: inherit; width: inherit"></div>
     </div>
   </div>
 </template>
