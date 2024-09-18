@@ -67,6 +67,13 @@
               :selectedAlgorithm="algorithm.selectedValue"
             />
           </v-row>
+          <v-row>
+            <PiePlot
+              :key="piePlotId"
+              :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+              :selectedCompanyName="companies.selectedValue"
+            />
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -98,13 +105,14 @@
 import LinePlot from './LinePlot.vue';
 // eslint-disable-next-line
 import ScatterPlot from './ScatterPlot.vue';
+import PiePlot from './PiePlot.vue';
 
 
 export default {
   name: 'HelloWorld',
   
   // eslint-disable-next-line
-  components: {ScatterPlot, LinePlot},
+  components: {ScatterPlot, LinePlot, PiePlot},
 
   data: () => ({
     categories: {
@@ -127,7 +135,8 @@ export default {
       this.scatterPlotId += 1;
     },
     changeCompany() {
-          this.linePlotId += 1
+          this.linePlotId += 1;
+          this.piePlotId += 1;
     },
     changeAlgorithm() {
           this.linePlotId += 1

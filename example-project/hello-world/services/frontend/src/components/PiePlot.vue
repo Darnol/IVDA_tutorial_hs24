@@ -1,11 +1,8 @@
 <template>
   <div>
-    <v-row align="center" justify="center" class="mt-1 mb-0">
-      <h3>HERE COMES A PIE PLOT</h3>
-    </v-row>
-    <!-- <div style="height: 80vh; width: 100vh">
-      <div id='myLinePlot' style="height: inherit; width: inherit"></div>
-    </div> -->
+    <div style="height: 80vh; width: 90vh">
+      <div id='myPiePlot' style="height: inherit; width: inherit"></div>
+    </div>
   </div>
 </template>
 
@@ -17,12 +14,13 @@ export default {
   
   name: "PiePlot",
   
-  props: ["selectedCompany"],
+  props: ["selectedCompany", "selectedCompanyName"],
 
   data: () => ({
     PiePlotData: {
       profits: [],
-      profitsPct: [],
+      labels: [],
+      pull: [],
       category: ""
     }
   }),
@@ -34,80 +32,68 @@ export default {
   watch: {
     selectedCompany() {
       this.PiePlotData.profits = [];
-      this.PiePlotData.profitsPct = [];
-      this.PiePlotData.noCompanies = [];
-      this.PiePlotData.prediction.y = [];
+      this.PiePlotData.labels = [];
+      this.PiePlotData.pull = [];
+      this.PiePlotData.category = "";
       this.fetchData();
     }
   },
   
   methods: {
     async fetchData() {
-      // req URL to retrieve single company from backend
-      var reqUrl = 'http://127.0.0.1:5000/companies/' + this.selectedCompany + '?algorithm=' + this.selectedAlgorithm
-      console.log("ReqURL " + reqUrl)
+
+      // req the selected company to find out the category. We dont care about the algorithm
+      var reqUrl_single = 'http://127.0.0.1:5000/companies/' + this.selectedCompany + '?algorithm=random';
+
       // await response and data
-      const response = await fetch(reqUrl)
-      const responseData = await response.json();
-      // transform data to usable by lineplot
-      responseData.profit.forEach((profit) => {
-        if (profit.year >= 2021) {
-          this.LinePlotData.prediction.x.push(profit.year)
-          this.LinePlotData.prediction.y.push(profit.value)
-        }
-        if (profit.year <= 2021) {
-          this.LinePlotData.solid.x.push(profit.year)
-          this.LinePlotData.solid.y.push(profit.value)
-        }
+      var response_single = await fetch(reqUrl_single)
+      var responseData_single = await response_single.json();
+
+      // extract the category
+      var selectedCategory = responseData_single.category;
+      this.PiePlotData.category = selectedCategory;
+      console.log("This is the category for the pie plot: " + selectedCategory);
+
+      // req URL to retrieve all companies of the selected category
+      var reqUrl = 'http://127.0.0.1:5000/companies?category=' + selectedCategory;
+      // await response and data
+      var response = await fetch(reqUrl);
+      var responseData = await response.json();
+      
+      // for each company, summarise the profits
+      responseData.forEach((c) => {
+        // extract for each company the sum of the profits
+        let sum = c.profit.reduce((sum, profit_item) => sum + profit_item.value, 0);
+        this.PiePlotData.profits.push(sum);
+        this.PiePlotData.labels.push(c.name);
+        
+        // Set the pull property. Pull puts emphasis on our selected company
+        c.id === this.selectedCompany ? this.PiePlotData.pull.push(0.1) : this.PiePlotData.pull.push(0);
       })
-      // draw the lineplot after the data is transformed
-      this.drawLinePlot()
+      // draw the plot after the data is transformed
+      this.drawPiePlot()
     },
-    drawLinePlot() {
-      var trace_solid = {
-        x: this.LinePlotData.solid.x,
-        y: this.LinePlotData.solid.y,
-        type: 'scatter',
-        mode: 'lines+markers',
-        name: "History",
-        marker: {
-          color: 'blue'
-        },
-        line: {
-          color: 'blue'
-        }
-      };
-      var trace_prediction = {
-        x: this.LinePlotData.prediction.x,
-        y: this.LinePlotData.prediction.y,
-        type: 'scatter',
-        mode: 'lines+markers',
-        name: "Prediction (if algorithm is selected)",
-        marker: {
-          color: 'orange'
-        },
-        line: {
-          color: 'orange',
-          dash: 'dot'
-        }
+    drawPiePlot() {
+      var trace = {
+        values: this.PiePlotData.profits,
+        labels: this.PiePlotData.labels,
+        pull: this.PiePlotData.pull,
+        // values: [20,20,60],
+        // labels: ["a","b","c"],
+        type: 'pie',
       };
       
-      // We exclude prediciton trace if there is only one value (2021)
-      var data = this.LinePlotData.prediction.x.length > 1 ? [trace_prediction, trace_solid] : [trace_solid];
       var layout = {
-        xaxis: {
-          title: "Year",
-          tickformat: "d",
-          autotick: false
+        title: {
+            text: 'Profit distribution of category: ' + this.PiePlotData.category + '<br>Selected company: ' + this.selectedCompanyName,
+            font: {
+                size: 20
+            }
         },
-        yaxis: {
-          title: "Profit"
-        },
-        showlegend: true,
-        legend: {x: 0.05, y: 1}
+        // title: "Profit distribution of category: " + this.PiePlotData.category + "\nSelected company: " + this.selectedCompanyName,
       };
-      var config = {responsive: true, displayModeBar: false}
-      Plotly.newPlot('myLinePlot', data, layout, config);
+      var config = {};
+      Plotly.newPlot('myPiePlot', [trace], layout, config);
     }
   }
 }
