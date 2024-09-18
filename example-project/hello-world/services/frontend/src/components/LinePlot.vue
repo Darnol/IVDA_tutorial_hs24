@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row align="center" justify="center" class="mt-1 mb-0">
-      <h3>Profit View</h3>
+      <h3>Profit View of selected company {{ $props.selectedCompany }}</h3>
     </v-row>
     <div style="height: 90vh">
       <div id='myLinePlot' style="height: inherit"></div>
@@ -14,17 +14,36 @@
 <script>
 import Plotly from 'plotly.js/dist/plotly';
 export default {
+  
   name: "LinePlot",
+  
+  props: ["selectedCompany", "selectedAlgorithm"],
+
   data: () => ({
     LinePlotData: {x: [], y: []}
   }),
+  
   mounted() {
     this.fetchData()
   },
+
+  watch: {
+    selectedCompany() {
+      this.LinePlotData.x = [];
+      this.LinePlotData.y = [];
+      this.fetchData();
+   },
+   selectedAlgorithm() {
+    this.LinePlotData.x = [];
+    this.LinePlotData.y = [];
+    this.fetchData();
+   }
+  },
+  
   methods: {
     async fetchData() {
       // req URL to retrieve single company from backend
-      var reqUrl = 'http://127.0.0.1:5000/companies/1'
+      var reqUrl = 'http://127.0.0.1:5000/companies/' + this.selectedCompany + '?algorithm=' + this.selectedAlgorithm
       console.log("ReqURL " + reqUrl)
       // await response and data
       const response = await fetch(reqUrl)

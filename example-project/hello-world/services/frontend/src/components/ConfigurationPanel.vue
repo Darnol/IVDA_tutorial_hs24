@@ -26,22 +26,39 @@
           </v-row>
           <v-row>
             <v-col cols="12" sm="12">
-              <v-select :items="companies.values" label="Select a company" dense
-                v-model="companies.selectedValue"></v-select>
+              <v-select
+                :items="companies.values"
+                label="Select a company"
+                dense
+                v-model="companies.selectedValue"
+                @change="changeCompany">
+            </v-select>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" sm="12">
-              <v-select :items="algorithm.values" label="Select an algorithm" dense
-                v-model="algorithm.selectedValue"></v-select>
+              <v-select
+                :items="algorithm.values"
+                label="Select an algorithm"
+                dense
+                v-model="algorithm.selectedValue"
+                @change="changeAlgorithm">
+              </v-select>
             </v-col>
           </v-row>
         </v-col>
         <v-col cols="12" md="5">
-          <ScatterPlot :key="scatterPlotId" :selectedCategory="categories.selectedValue"/>
+          <ScatterPlot
+            :key="scatterPlotId"
+            :selectedCategory="categories.selectedValue"
+          />
         </v-col>
         <v-col cols="12" md="5">
-          <LinePlot />
+          <LinePlot
+            :key="linePlotId"
+            :selectedCompany="companies.selectedValue"
+            :selectedAlgorithm="algorithm.selectedValue"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -96,7 +113,14 @@ export default {
   methods: {
     changeCategory() {
       this.scatterPlotId += 1;
+    },
+    changeCompany() {
+          this.linePlotId += 1
+    },
+    changeAlgorithm() {
+          this.linePlotId += 1
     }
+
   }
 }
 </script>
