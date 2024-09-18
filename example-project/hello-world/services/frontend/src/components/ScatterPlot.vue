@@ -18,7 +18,12 @@ export default {
     "selectedCategory"
   ],
   data: () => ({
-    ScatterPlotData: {x: [], y: [], name: []}
+    ScatterPlotData: {x: [], y: [], name: [], cat: []},
+    CatColorMap: {
+      "tech": "blue",
+      "health": "green",
+      "bank": "red"
+    }
   }),
   mounted() {
     this.fetchData()
@@ -27,6 +32,7 @@ export default {
     selectedCategory: function () {
       this.ScatterPlotData.x = [];
       this.ScatterPlotData.y = [];
+      this.ScatterPlotData.cat = [];
       this.fetchData();
     }
   },
@@ -43,11 +49,18 @@ export default {
         this.ScatterPlotData.name.push(company.name)
         this.ScatterPlotData.x.push(company.founding_year)
         this.ScatterPlotData.y.push(company.employees)
+        this.ScatterPlotData.cat.push(company.category)
       })
       // after the data is loaded, draw the plot
       this.drawScatterPlot()
     },
     drawScatterPlot() {
+
+      // get for each point the color from the colormap
+      var colors = this.ScatterPlotData.cat.map((cat) => {
+        return this.CatColorMap[cat]
+      })
+
       var trace1 = {
         x: this.ScatterPlotData.x,
         y: this.ScatterPlotData.y,
@@ -55,7 +68,7 @@ export default {
         mode: 'markers',
         type: 'scatter',
         marker: {
-          color: 'black',
+          color: colors,
           size: 12
         }
       };
@@ -67,6 +80,7 @@ export default {
         yaxis: {
           title: "Number of Employees"
         },
+        showLegend: true
       };
       var config = {responsive: true, displayModeBar: false};
       Plotly.newPlot('myScatterPlot', data, layout, config);
