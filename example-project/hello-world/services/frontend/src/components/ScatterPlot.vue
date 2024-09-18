@@ -41,8 +41,8 @@ export default {
       // transform data to usable by scatterplot
       responseData.forEach((company) => {
         this.ScatterPlotData.name.push(company.name)
-        this.ScatterPlotData.x.push(company.employees)
-        this.ScatterPlotData.y.push(company.founding_year)
+        this.ScatterPlotData.x.push(company.founding_year)
+        this.ScatterPlotData.y.push(company.employees)
       })
       // after the data is loaded, draw the plot
       this.drawScatterPlot()
