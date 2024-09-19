@@ -1,0 +1,3 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/example-project/hello-world/services/backend/env/bin"
+}

@@ -1,10 +1,11 @@
-from flask import request
+from flask import request, abort
 from flask import Flask
 from flask_cors import CORS
 from flask_restx import Resource, Api
 from flask_pymongo import PyMongo
 from pymongo.collection import Collection
 from .model import Company
+from .llm import groq_llm
 
 import pandas as pd
 from statsmodels.tsa.ar_model import AutoReg
@@ -66,6 +67,23 @@ class Companies(Resource):
             # add the value to profit list at position 0
             company.profit.insert(0, {'year': 2022, 'value': prediction_value})
         return company.to_json()
+      
+class Poem(Resource):
+    def get(self, id):
+
+        # search for the company by ID
+        cursor = companies.find_one_or_404({"id": id})
+        company = Company(**cursor)
+        company_name = company.name
+        
+        client = groq_llm.GroqClient()
+        
+        # generate the poem
+        poem = client.generate_poem(company_name, "src/llm/prompts/groq_api_poem.json")
+        return poem
+    
+
 
 api.add_resource(CompaniesList, '/companies')
 api.add_resource(Companies, '/companies/<int:id>')
+api.add_resource(Poem, '/llm/groq/poem/<int:id>')

@@ -7,3 +7,6 @@ pymongo
 flask_cors
 pandas
 statsmodels
+requests
+python-dotenv
+groq
