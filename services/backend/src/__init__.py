@@ -96,7 +96,7 @@ class FunFact(Resource):
         
         # generate the fun fact
         funfact = client.generate_funfact(company_name, company_category, company_founding_year, "services/backend/src/llm/prompts/groq_api_funfact.json")
-        return funfact
+        return {"funfact": funfact, "category": company_category, "founding_year": company_founding_year}
     
 
 

@@ -45,16 +45,20 @@
               </v-select>
             </v-col>
           </v-row>
-          <v-row v-if="typeof poem === 'string' && poem.length > 0">
+          <v-row>
             <v-col cols="12" sm="12">
-              <div class="control-panel-font"><strong>Poem about the selected company:</strong></div>
-              <p>{{ poem }}</p>
+              <v-row>
+                <Poem
+                  :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+                  :selectedCompanyName="companies.selectedValue"
+                />
+              </v-row>
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="12" sm="12">
               <v-row>
-                <Poem
+                <FunFact
                   :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
                   :selectedCompanyName="companies.selectedValue"
                 />
@@ -120,13 +124,14 @@ import LinePlot from './LinePlot.vue';
 import ScatterPlot from './ScatterPlot.vue';
 import PiePlot from './PiePlot.vue';
 import Poem from './Poem.vue';
+import FunFact from './FunFact.vue';
 
 
 export default {
   name: 'HelloWorld',
   
   // eslint-disable-next-line
-  components: {ScatterPlot, LinePlot, PiePlot, Poem},
+  components: {ScatterPlot, LinePlot, PiePlot, Poem, FunFact},
 
   data: () => ({
     categories: {

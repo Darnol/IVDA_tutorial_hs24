@@ -52,7 +52,6 @@ export default {
       // extract the category
       var selectedCategory = responseData_single.category;
       this.PiePlotData.category = selectedCategory;
-      console.log("This is the category for the pie plot: " + selectedCategory);
 
       // req URL to retrieve all companies of the selected category
       var reqUrl = 'http://127.0.0.1:5000/companies?category=' + selectedCategory;

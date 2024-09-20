@@ -90,9 +90,6 @@ export default {
       myPlot.on('plotly_click', function (data) {
         for (var i = 0; i < data.points.length; i++) {
 
-          console.log("clickScatterPlot: This is the data:");
-          console.log(data);
-
           // get the index of point
           let pn = data.points[i].pointNumber;
 
