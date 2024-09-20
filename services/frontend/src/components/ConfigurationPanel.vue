@@ -51,6 +51,16 @@
               <p>{{ poem }}</p>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-row>
+                <Poem
+                  :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+                  :selectedCompanyName="companies.selectedValue"
+                />
+              </v-row>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row>
@@ -106,19 +116,17 @@
 
 
 <script>
-// eslint-disable-next-line
-import axios from 'axios';
 import LinePlot from './LinePlot.vue';
-// eslint-disable-next-line
 import ScatterPlot from './ScatterPlot.vue';
 import PiePlot from './PiePlot.vue';
+import Poem from './Poem.vue';
 
 
 export default {
   name: 'HelloWorld',
   
   // eslint-disable-next-line
-  components: {ScatterPlot, LinePlot, PiePlot},
+  components: {ScatterPlot, LinePlot, PiePlot, Poem},
 
   data: () => ({
     categories: {
@@ -134,32 +142,32 @@ export default {
       values: ['none', 'random', 'regression'],
       selectedValue: 'none'
     },
-    poem: "",
+    poemCounter: 0,
     scatterPlotId: 0,
     linePlotId: 0,
     piePlotId: 0
   }),
 
-  mounted() {
-    this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
-  },
+  // mounted() {
+  //   this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
+  // },
 
   methods: {
-    async fetchPoem(companyId) {
-      try {
-        const response = await axios.get(`http://localhost:5000/llm/groq/poem/${companyId}`);
-        this.poem = response.data;
-      } catch (error) {
-        console.error("Error fetching the poem:", error);
-      }
-    },
+    // async fetchPoem(companyId) {
+    //   try {
+    //     const response = await axios.get(`http://localhost:5000/llm/groq/poem/${companyId}`);
+    //     this.poem = response.data;
+    //   } catch (error) {
+    //     console.error("Error fetching the poem:", error);
+    //   }
+    // },
     changeCategory() {
       this.scatterPlotId += 1;
     },
     changeCompany() {
       this.linePlotId += 1;
       this.piePlotId += 1;
-      this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
+      // this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
     },
     changeAlgorithm() {
           this.linePlotId += 1
@@ -173,8 +181,6 @@ export default {
 
   watch: {
     'companies.selectedValue': function(newValue, oldValue) {
-      console.log("Watcher detected oldValue:", oldValue);
-      console.log("Watcher detected change:", newValue);
       this.changeCompany();
     }
   }
