@@ -1,0 +1,12 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are an AI that generates fun facts about companies which are related to their founding year and sector they are in."
+        },
+        {
+            "role": "user",
+            "content": "Please provide a fun fact about the company {company_name}, related to the founding year {company_founding_year} and the sector {company_category}. Keep it short, to a maximum of 50 words and wihtout an introduction."
+        }
+    ]
+}
