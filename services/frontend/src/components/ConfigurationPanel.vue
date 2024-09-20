@@ -136,6 +136,9 @@ export default {
       selectedValue: 'none'
     },
     poem: "",
+    scatterPlotId: 0,
+    linePlotId: 0,
+    piePlotId: 0
   }),
 
   // mounted() {
