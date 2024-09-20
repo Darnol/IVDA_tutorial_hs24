@@ -46,6 +46,12 @@
               </v-select>
             </v-col>
           </v-row>
+          <v-row v-if="typeof poem === 'string' && poem.length > 0">
+            <v-col cols="12" sm="12">
+              <div class="control-panel-font"><strong>Poem about the selected company:</strong></div>
+              <p>{{ poem }}</p>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
       <v-row>
@@ -102,6 +108,7 @@
 
 <script>
 // eslint-disable-next-line
+import axios from 'axios';
 import LinePlot from './LinePlot.vue';
 // eslint-disable-next-line
 import ScatterPlot from './ScatterPlot.vue';
@@ -127,16 +134,30 @@ export default {
     algorithm: {
       values: ['none', 'random', 'regression'],
       selectedValue: 'none'
-    }
+    },
+    poem: "",
   }),
 
+  // mounted() {
+  //   this.fetchPoem(1)
+  // },
+
   methods: {
+    async fetchPoem(companyId) {
+      try {
+        const response = await axios.get(`http://localhost:5000/llm/groq/poem/${companyId}`);
+        this.poem = response.data;
+      } catch (error) {
+        console.error("Error fetching the poem:", error);
+      }
+    },
     changeCategory() {
       this.scatterPlotId += 1;
     },
     changeCompany() {
-          this.linePlotId += 1;
-          this.piePlotId += 1;
+      this.linePlotId += 1;
+      this.piePlotId += 1;
+      this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
     },
     changeAlgorithm() {
           this.linePlotId += 1
