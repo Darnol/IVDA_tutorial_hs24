@@ -1,7 +1,7 @@
 <template>
     <div style="width: 90%">
         <v-row align="left" justify="left" class="mt-1 mb-0">
-            <h3>A poem about selected company "{{ $props.selectedCompanyName }}":</h3>
+            <h3>A poem about selected company "{{ $props.selectedCompanyName }}" using attribute "<span style="color: red;">{{ $props.selectedCompanyName }}</span>":</h3>
         </v-row>
         <v-row class="mt-1 mb-5">
             <em>{{ poem }}</em>
