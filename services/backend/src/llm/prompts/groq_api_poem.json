@@ -6,7 +6,7 @@
         },
         {
             "role": "user",
-            "content": "Please provide a poem or information about the company {company_name}."
+            "content": "Please provide a poem or information about the company {company_name}. Keep it short, to a maximum of 50 words and wihtout an introduction."
         }
     ]
 }

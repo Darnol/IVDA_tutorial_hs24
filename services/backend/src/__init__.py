@@ -28,7 +28,6 @@ class CompaniesList(Resource):
     def get(self, args=None):
         # retrieve the arguments and convert to a dict
         args = request.args.to_dict()
-        print(args)
         # If the user specified category is "All" we retrieve all companies
         if args['category'] == 'All':
             cursor = companies.find()
@@ -79,7 +78,7 @@ class Poem(Resource):
         client = groq_llm.GroqClient()
         
         # generate the poem
-        poem = client.generate_poem(company_name, "src/llm/prompts/groq_api_poem.json")
+        poem = client.generate_poem(company_name, "services/backend/src/llm/prompts/groq_api_poem.json")
         return poem
     
 

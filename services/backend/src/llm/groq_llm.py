@@ -10,9 +10,17 @@ GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 class GroqClient:
     def __init__(self):
         self.api_key = GROQ_API_KEY
-        self.base_url = "https://api.groq.com/v1"
+        self.base_url = "https://api.groq.com/openai/v1"
 
     def generate_poem(self, company_name, prompt_file_path):
+
+        # DEBUG
+        import os
+        print("This is the current directory:")
+        print(os.getcwd())
+        print("This is GROQ_API_KEY from the env:")
+        print(os.environ['GROQ_API_KEY'])
+
         url = f"{self.base_url}/chat/completions"
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -27,8 +35,20 @@ class GroqClient:
         for message in messages_data["messages"]:
             message["content"] = message["content"].replace("{company_name}", company_name)
 
+        # DEBUG
+        print("This is the url:")
+        print(url)
+        print("This is the headers:")
+        print(headers)
+
         # Make the API request
         response = requests.post(url, json={"model": "llama3-8b-8192", "messages": messages_data["messages"]}, headers=headers)
+
+        # DEBUG
+        from pprint import PrettyPrinter
+        pp = PrettyPrinter(indent = 2)
+        print("This is the response:")
+        print(pp.pprint(response.json()))
         
         if response.status_code == 200:
             return response.json()["choices"][0]["message"]["content"]
