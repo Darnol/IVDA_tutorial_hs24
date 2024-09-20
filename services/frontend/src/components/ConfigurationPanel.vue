@@ -30,8 +30,7 @@
                 :items="companies.names"
                 label="Select a company"
                 dense
-                v-model="companies.selectedValue"
-                @change="changeCompany">
+                v-model="companies.selectedValue">
             </v-select>
             </v-col>
           </v-row>
@@ -141,9 +140,9 @@ export default {
     piePlotId: 0
   }),
 
-  // mounted() {
-  //   this.fetchPoem(1)
-  // },
+  mounted() {
+    this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
+  },
 
   methods: {
     async fetchPoem(companyId) {
@@ -169,6 +168,14 @@ export default {
       // id to name
       this.companies.selectedValue = this.companies.names[this.companies.values.indexOf(companyId)]
       this.changeCompany()
+    }
+  },
+
+  watch: {
+    'companies.selectedValue': function(newValue, oldValue) {
+      console.log("Watcher detected oldValue:", oldValue);
+      console.log("Watcher detected change:", newValue);
+      this.changeCompany();
     }
   }
 }
