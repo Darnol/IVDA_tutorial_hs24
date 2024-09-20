@@ -51,7 +51,6 @@ export default {
     async fetchData() {
       // req URL to retrieve single company from backend
       var reqUrl = 'http://127.0.0.1:5000/companies/' + this.selectedCompany + '?algorithm=' + this.selectedAlgorithm
-      console.log("ReqURL " + reqUrl)
       // await response and data
       const response = await fetch(reqUrl)
       const responseData = await response.json();
