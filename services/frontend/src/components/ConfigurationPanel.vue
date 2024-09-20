@@ -30,8 +30,7 @@
                 :items="companies.names"
                 label="Select a company"
                 dense
-                v-model="companies.selectedValue"
-                @change="changeCompany">
+                v-model="companies.selectedValue">
             </v-select>
             </v-col>
           </v-row>
@@ -44,6 +43,26 @@
                 v-model="algorithm.selectedValue"
                 @change="changeAlgorithm">
               </v-select>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-row>
+                <Poem
+                  :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+                  :selectedCompanyName="companies.selectedValue"
+                />
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="12">
+              <v-row>
+                <FunFact
+                  :selectedCompany="companies.values[companies.names.indexOf(companies.selectedValue)]"
+                  :selectedCompanyName="companies.selectedValue"
+                />
+              </v-row>
             </v-col>
           </v-row>
         </v-col>
@@ -101,18 +120,17 @@
 
 
 <script>
-// eslint-disable-next-line
 import LinePlot from './LinePlot.vue';
-// eslint-disable-next-line
 import ScatterPlot from './ScatterPlot.vue';
 import PiePlot from './PiePlot.vue';
+import Poem from './Poem.vue';
+import FunFact from './FunFact.vue';
 
 
 export default {
   name: 'HelloWorld',
   
-  // eslint-disable-next-line
-  components: {ScatterPlot, LinePlot, PiePlot},
+  components: {ScatterPlot, LinePlot, PiePlot, Poem, FunFact},
 
   data: () => ({
     categories: {
@@ -127,7 +145,11 @@ export default {
     algorithm: {
       values: ['none', 'random', 'regression'],
       selectedValue: 'none'
-    }
+    },
+    poemCounter: 0,
+    scatterPlotId: 0,
+    linePlotId: 0,
+    piePlotId: 0
   }),
 
   methods: {
@@ -135,8 +157,8 @@ export default {
       this.scatterPlotId += 1;
     },
     changeCompany() {
-          this.linePlotId += 1;
-          this.piePlotId += 1;
+      this.linePlotId += 1;
+      this.piePlotId += 1;
     },
     changeAlgorithm() {
           this.linePlotId += 1
@@ -145,6 +167,12 @@ export default {
       // id to name
       this.companies.selectedValue = this.companies.names[this.companies.values.indexOf(companyId)]
       this.changeCompany()
+    }
+  },
+
+  watch: {
+    'companies.selectedValue': function(newValue, oldValue) {
+      this.changeCompany();
     }
   }
 }

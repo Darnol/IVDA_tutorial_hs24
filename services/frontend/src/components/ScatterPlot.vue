@@ -40,7 +40,6 @@ export default {
     async fetchData() {
       // req URL to retrieve companies from backend
       var reqUrl = 'http://127.0.0.1:5000/companies?category=' + this.selectedCategory
-      console.log("ReqURL " + reqUrl)
       // await response and data
       const response = await fetch(reqUrl)
       const responseData = await response.json();
@@ -90,9 +89,6 @@ export default {
       var myPlot = document.getElementById('myScatterPlot')
       myPlot.on('plotly_click', function (data) {
         for (var i = 0; i < data.points.length; i++) {
-
-          console.log("clickScatterPlot: This is the data:");
-          console.log(data);
 
           // get the index of point
           let pn = data.points[i].pointNumber;

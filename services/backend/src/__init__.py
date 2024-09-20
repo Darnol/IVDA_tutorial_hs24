@@ -28,7 +28,6 @@ class CompaniesList(Resource):
     def get(self, args=None):
         # retrieve the arguments and convert to a dict
         args = request.args.to_dict()
-        print(args)
         # If the user specified category is "All" we retrieve all companies
         if args['category'] == 'All':
             cursor = companies.find()
@@ -79,11 +78,29 @@ class Poem(Resource):
         client = groq_llm.GroqClient()
         
         # generate the poem
-        poem = client.generate_poem(company_name, "src/llm/prompts/groq_api_poem.json")
+        poem = client.generate_poem(company_name, "services/backend/src/llm/prompts/groq_api_poem.json")
         return poem
+
+
+class FunFact(Resource):
+    def get(self, id):
+
+        # search for the company by ID
+        cursor = companies.find_one_or_404({"id": id})
+        company = Company(**cursor)
+        company_name = company.name
+        company_category = str(company.category)
+        company_founding_year = str(company.founding_year)
+        
+        client = groq_llm.GroqClient()
+        
+        # generate the fun fact
+        funfact = client.generate_funfact(company_name, company_category, company_founding_year, "services/backend/src/llm/prompts/groq_api_funfact.json")
+        return {"funfact": funfact, "category": company_category, "founding_year": company_founding_year}
     
 
 
 api.add_resource(CompaniesList, '/companies')
 api.add_resource(Companies, '/companies/<int:id>')
 api.add_resource(Poem, '/llm/groq/poem/<int:id>')
+api.add_resource(FunFact, '/llm/groq/funfact/<int:id>')
