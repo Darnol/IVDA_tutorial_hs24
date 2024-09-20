@@ -2,7 +2,7 @@
     <div style="width: 90%">
         <v-row align="left" justify="left" class="mt-1 mb-0">
             <h3>
-              A fun fact about selected company "{{ $props.selectedCompanyName }}" using attribute
+              A fun fact about selected company "{{ $props.selectedCompanyName }}" using attributes
               "<span style="color: red;">{{ $props.selectedCompanyName }}</span>",
               "<span style="color: red;">{{ category }}</span>" and
               "<span style="color: red;">{{ founding_year }}</span>":</h3>

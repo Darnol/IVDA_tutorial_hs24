@@ -130,7 +130,6 @@ import FunFact from './FunFact.vue';
 export default {
   name: 'HelloWorld',
   
-  // eslint-disable-next-line
   components: {ScatterPlot, LinePlot, PiePlot, Poem, FunFact},
 
   data: () => ({
@@ -153,26 +152,13 @@ export default {
     piePlotId: 0
   }),
 
-  // mounted() {
-  //   this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
-  // },
-
   methods: {
-    // async fetchPoem(companyId) {
-    //   try {
-    //     const response = await axios.get(`http://localhost:5000/llm/groq/poem/${companyId}`);
-    //     this.poem = response.data;
-    //   } catch (error) {
-    //     console.error("Error fetching the poem:", error);
-    //   }
-    // },
     changeCategory() {
       this.scatterPlotId += 1;
     },
     changeCompany() {
       this.linePlotId += 1;
       this.piePlotId += 1;
-      // this.fetchPoem(this.companies.values[this.companies.names.indexOf(this.companies.selectedValue)]);
     },
     changeAlgorithm() {
           this.linePlotId += 1
