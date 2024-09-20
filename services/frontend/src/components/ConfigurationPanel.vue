@@ -14,8 +14,7 @@
                 :items="categories.values"
                 label="Select a category"
                 dense
-                v-model="categories.selectedValue"
-                @change="changeCategory">
+                v-model="categories.selectedValue">
               </v-select>
             </v-col>
           </v-row>
@@ -40,8 +39,7 @@
                 :items="algorithm.values"
                 label="Select an algorithm"
                 dense
-                v-model="algorithm.selectedValue"
-                @change="changeAlgorithm">
+                v-model="algorithm.selectedValue">
               </v-select>
             </v-col>
           </v-row>
@@ -146,34 +144,17 @@ export default {
       values: ['none', 'random', 'regression'],
       selectedValue: 'none'
     },
-    poemCounter: 0,
-    scatterPlotId: 0,
-    linePlotId: 0,
-    piePlotId: 0
   }),
 
   methods: {
-    changeCategory() {
-      this.scatterPlotId += 1;
-    },
-    changeCompany() {
-      this.linePlotId += 1;
-      this.piePlotId += 1;
-    },
-    changeAlgorithm() {
-          this.linePlotId += 1
-    },
     changeCurrentlySelectedCompany(companyId) {
       // id to name
       this.companies.selectedValue = this.companies.names[this.companies.values.indexOf(companyId)]
-      this.changeCompany()
     }
   },
 
   watch: {
-    'companies.selectedValue': function(newValue, oldValue) {
-      this.changeCompany();
-    }
+    'companies.selectedValue': function(newValue, oldValue) {}
   }
 }
 </script>
