@@ -8,7 +8,7 @@
               "<span style="color: red;">{{ founding_year }}</span>":</h3>
         </v-row>
         <v-row class="mt-1 mb-5">
-            <em>{{ funfact }}</em>
+            <em v-html="funfact"></em>
         </v-row>
     </div>
 </template>
@@ -46,6 +46,10 @@ export default {
         this.funfact = response.data.funfact;
         this.category = response.data.category;
         this.founding_year = response.data.founding_year;
+        // highlight the information used
+        this.funfact = this.funfact.replace(new RegExp(this.selectedCompanyName, 'gi'), (match) => `<span style="color: red;">${match}</span>`);
+        this.funfact = this.funfact.replace(new RegExp(this.category, 'gi'), (match) => `<span style="color: red;">${match}</span>`);
+        this.funfact = this.funfact.replace(new RegExp(this.founding_year, 'gi'), (match) => `<span style="color: red;">${match}</span>`);
       } catch (error) {
         console.error("Error fetching the funfact:", error);
       }

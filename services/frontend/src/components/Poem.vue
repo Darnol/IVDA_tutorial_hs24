@@ -4,7 +4,7 @@
             <h3>A poem about selected company "{{ $props.selectedCompanyName }}" using attribute "<span style="color: red;">{{ $props.selectedCompanyName }}</span>":</h3>
         </v-row>
         <v-row class="mt-1 mb-5">
-            <em>{{ poem }}</em>
+          <em v-html="poem"></em>
         </v-row>
     </div>
 </template>
@@ -37,6 +37,8 @@ export default {
       try {
         const response = await axios.get(`http://localhost:5000/llm/groq/poem/${this.selectedCompany}`);
         this.poem = response.data;
+        // highlight the information used
+        this.poem = this.poem.replace(new RegExp(this.selectedCompanyName, 'gi'), (match) => `<span style="color: red;">${match}</span>`);
       } catch (error) {
         console.error("Error fetching the poem:", error);
       }
