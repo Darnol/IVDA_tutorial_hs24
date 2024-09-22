@@ -1,8 +1,5 @@
 <template>
   <div>
-    <v-row align="center" justify="center" class="mt-1 mb-0">
-      <h3>Profit View of selected company "{{ $props.selectedCompanyName }}"</h3>
-    </v-row>
     <div style="height: 80vh; width: 100vh">
       <div id='myLinePlot' style="height: inherit; width: inherit"></div>
     </div>
@@ -109,7 +106,13 @@ export default {
           title: "Profit"
         },
         showlegend: true,
-        legend: {x: 0.05, y: 1}
+        legend: {x: 0.05, y: 1},
+        title: {
+          text: 'Profit View of selected company ' + this.selectedCompanyName,
+          font: {
+              size: 20
+          }
+        }
       };
       var config = {responsive: true, displayModeBar: false}
       Plotly.newPlot('myLinePlot', data, layout, config);

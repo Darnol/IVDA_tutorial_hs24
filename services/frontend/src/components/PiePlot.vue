@@ -84,12 +84,11 @@ export default {
       
       var layout = {
         title: {
-            text: 'Profit distribution of category: ' + this.PiePlotData.category + '<br>Selected company: ' + this.selectedCompanyName,
+            text: 'Distribution of the sum of profits 2017 - 2021 for of category: <b>' + this.PiePlotData.category + '</b><br>Selected company: <b>' + this.selectedCompanyName + '</b>',
             font: {
                 size: 20
             }
-        },
-        // title: "Profit distribution of category: " + this.PiePlotData.category + "\nSelected company: " + this.selectedCompanyName,
+        }
       };
       var config = {};
       Plotly.newPlot('myPiePlot', [trace], layout, config);

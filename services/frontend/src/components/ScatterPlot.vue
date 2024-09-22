@@ -1,8 +1,5 @@
 <template>
   <div>
-    <v-row align="center" justify="center" class="mt-1 mb-0">
-      <h3>Overview of {{ $props.selectedCategory }} Companies</h3>
-    </v-row>
     <div style="height: 80vh; width: 100vh">
       <div id='myScatterPlot' style="height: inherit; width: inherit"></div>
     </div>
@@ -79,6 +76,12 @@ export default {
         yaxis: {
           title: "Number of Employees"
         },
+        title: {
+          text: 'Overview of ' + this.selectedCategory + ' companies',
+          font: {
+              size: 20
+          }
+        }
       };
       var config = {responsive: true, displayModeBar: false};
       Plotly.newPlot('myScatterPlot', data, layout, config);
