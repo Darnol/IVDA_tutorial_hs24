@@ -108,7 +108,7 @@ export default {
         showlegend: true,
         legend: {x: 0.05, y: 1},
         title: {
-          text: 'Profit View of selected company ' + this.selectedCompanyName,
+          text: 'Profit View of selected company <b>' + this.selectedCompanyName + '</b>',
           font: {
               size: 20
           }

@@ -77,9 +77,9 @@ export default {
         values: this.PiePlotData.profits,
         labels: this.PiePlotData.labels,
         pull: this.PiePlotData.pull,
-        // values: [20,20,60],
-        // labels: ["a","b","c"],
         type: 'pie',
+        hovertemplate: 
+          '%{label}<br>Total profits: %{value}<br><extra></extra>',
       };
       
       var layout = {
@@ -88,7 +88,8 @@ export default {
             font: {
                 size: 20
             }
-        }
+        },
+        legend: {x: 0.8, y: 1},
       };
       var config = {};
       Plotly.newPlot('myPiePlot', [trace], layout, config);

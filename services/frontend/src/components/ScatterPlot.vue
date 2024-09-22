@@ -102,6 +102,7 @@ export default {
           }
         },
         showlegend: true,
+        legend: {x: 0.05, y: 1},
         
       };
       var config = {responsive: true, displayModeBar: false};
