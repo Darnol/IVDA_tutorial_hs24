@@ -57,6 +57,24 @@ export default {
         return this.CatColorMap[cat]
       })
 
+      // Also create "invisible traces" for the legend, only show those categories that appear
+      var legendTraces = []
+      var uniqueCats = [...new Set(this.ScatterPlotData.cat)]
+      uniqueCats.forEach((cat) => {
+        legendTraces.push({
+          x: [null],
+          y: [null],
+          mode: 'markers',
+          type: 'scatter',
+          marker: {
+            color: this.CatColorMap[cat],
+            size: 12
+          },
+          name: cat,
+          showlegend: true
+        })
+      })
+
       var trace1 = {
         x: this.ScatterPlotData.x,
         y: this.ScatterPlotData.y,
@@ -66,9 +84,10 @@ export default {
         marker: {
           color: colors,
           size: 12
-        }
+        },
+        showlegend: false // we dont want to show that one on the legend
       };
-      var data = [trace1];
+      var data = [trace1].concat(legendTraces);
       var layout = {
         xaxis: {
           title: "Founding Year"
@@ -81,7 +100,9 @@ export default {
           font: {
               size: 20
           }
-        }
+        },
+        showlegend: true,
+        
       };
       var config = {responsive: true, displayModeBar: false};
       Plotly.newPlot('myScatterPlot', data, layout, config);
